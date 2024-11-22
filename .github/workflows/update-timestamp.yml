@@ -1,0 +1,25 @@
+name: Update Timestamp
+
+on:
+  schedule:
+    - cron: '30 0,3,6,9,12,15,18,21 * * *' # Adjust this if you want exact Berlin times in UTC
+
+jobs:
+  update-timestamp:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Update timestamp in Berlin timezone
+      run: |
+        TZ=Europe/Berlin date +"%Y-%m-%d %H:%M:%S" > timestamp.txt
+
+    - name: Commit and push changes
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git add timestamp.txt
+        git commit -m "Update timestamp"
+        git push
