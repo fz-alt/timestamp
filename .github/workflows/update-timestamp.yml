@@ -12,6 +12,14 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
+    - name: Debug current state
+      run: |
+        echo "Repository: https://github.com/fz-alt/timestamp.git"
+        echo "Running as user: $(whoami)"
+        echo "Current directory: $(pwd)"
+        echo "Contents:"
+        ls -la
+
     - name: Update timestamp in Berlin timezone
       run: |
         TZ=Europe/Berlin date +"%Y-%m-%d %H:%M:%S" > timestamp.txt
@@ -23,5 +31,5 @@ jobs:
         git config --global user.name "fz-alt"
         git config --global user.email "felix.zeitler@altruan.de"
         git add timestamp.txt
-        git commit -m "Update timestamp"
+        git commit -m "Update timestamp" || echo "No changes to commit"
         git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/fz-alt/timestamp.git
