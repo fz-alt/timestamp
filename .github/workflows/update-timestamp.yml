@@ -12,9 +12,9 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Update timestamp in Berlin timezone
+    - name: Update timestamp in Unix epoch format
       run: |
-        TZ=Europe/Berlin date +"%Y-%m-%d %H:%M:%S" > timestamp.txt
+        date +%s > timestamp.txt
 
     - name: Commit and push changes
       env:
